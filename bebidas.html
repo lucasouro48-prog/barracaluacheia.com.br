@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bebidas | Lua Cheia</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Segoe UI', Arial, sans-serif;
+}
+
+body{
+  background:linear-gradient(180deg,#020617,#020617,#0f172a);
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  background:rgba(2,6,23,.95);
+  backdrop-filter:blur(8px);
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid #1e293b;
+}
+
+.topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:16px 22px;
+}
+
+.topo h1{
+  font-size:22px;
+  color:#facc15;
+  letter-spacing:1px;
+}
+
+.menu-btn{
+  font-size:28px;
+  cursor:pointer;
+}
+
+/* MENU */
+nav{
+  display:none;
+  flex-direction:column;
+  background:#020617;
+}
+
+nav a{
+  padding:14px 22px;
+  color:#e5e7eb;
+  text-decoration:none;
+  border-top:1px solid #1e293b;
+}
+
+nav a:hover{
+  background:#1e293b;
+  color:#facc15;
+}
+
+/* MAIN */
+main{
+  padding:26px;
+  max-width:1200px;
+  margin:auto;
+}
+
+.section{
+  margin-bottom:42px;
+}
+
+.section h2{
+  margin-bottom:18px;
+  font-size:22px;
+  color:#38bdf8;
+  border-left:4px solid #38bdf8;
+  padding-left:12px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:18px;
+}
+
+/* CARD */
+.card{
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:18px;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+  box-shadow:0 18px 35px rgba(0,0,0,.45);
+}
+
+.card span{
+  font-size:15px;
+  font-weight:600;
+}
+
+.card button{
+  background:linear-gradient(135deg,#facc15,#eab308);
+  border:none;
+  padding:9px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  font-weight:700;
+  color:#020617;
+}
+
+@media(min-width:768px){
+  nav{
+    display:flex !important;
+    flex-direction:row;
+    justify-content:center;
+  }
+  nav a{border:none}
+  .menu-btn{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="topo">
+    <h1>🌙 Lua Cheia</h1>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+
+  <nav id="menu">
+    <a href="index.html">Início</a>
+    <a href="refeicoes.html">Refeições</a>
+    <a href="caldos.html">Caldos</a>
+    <a href="saladas.html">Saladas</a>
+    <a href="porcoes.html">Porções</a>
+    <a href="bebidas.html">Bebidas</a>
+    <a href="carrinho.html">🛒 Carrinho</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ÁGUAS -->
+<div class="section">
+<h2>💧 Águas</h2>
+<div class="grid">
+<div class="card"><span>Água sem gás</span><button onclick="adicionar('Água sem gás',5)">Adicionar</button></div>
+<div class="card"><span>Água com gás</span><button onclick="adicionar('Água com gás',6)">Adicionar</button></div>
+</div>
+</div>
+
+<!-- REFRIGERANTES -->
+<div class="section">
+<h2>🥤 Refrigerantes</h2>
+<div class="grid">
+<div class="card"><span>Refrigerante lata</span><button onclick="adicionar('Refrigerante lata',8)">Adicionar</button></div>
+<div class="card"><span>Guaraná 1L</span><button onclick="adicionar('Guaraná 1L',12)">Adicionar</button></div>
+<div class="card"><span>H2OH</span><button onclick="adicionar('H2OH',8)">Adicionar</button></div>
+</div>
+</div>
+
+<!-- SUCOS -->
+<div class="section">
+<h2>🥥 Sucos & Coco</h2>
+<div class="grid">
+<div class="card"><span>Água de Coco</span><button onclick="adicionar('Água de Coco',8)">Adicionar</button></div>
+<div class="card"><span>Suco Natural</span><button onclick="adicionar('Suco Natural',12)">Adicionar</button></div>
+<div class="card"><span>Suco em Lata</span><button onclick="adicionar('Suco em Lata',8)">Adicionar</button></div>
+</div>
+</div>
+
+<!-- ENERGÉTICOS -->
+<div class="section">
+<h2>⚡ Energéticos</h2>
+<div class="grid">
+<div class="card"><span>Energético</span><button onclick="adicionar('Energético',15)">Adicionar</button></div>
+</div>
+</div>
+
+<!-- DRINKS -->
+<div class="section">
+<h2>🍹 Drinks</h2>
+<div class="grid">
+<div class="card"><span>Caipirinha</span><button onclick="adicionar('Caipirinha',18)">Adicionar</button></div>
+<div class="card"><span>Caipifruta</span><button onclick="adicionar('Caipifruta',35)">Adicionar</button></div>
+<div class="card"><span>Caipifruta Mista</span><button onclick="adicionar('Caipifruta Mista',40)">Adicionar</button></div>
+<div class="card"><span>Caipiroska</span><button onclick="adicionar('Caipiroska',30)">Adicionar</button></div>
+<div class="card"><span>Piña Colada</span><button onclick="adicionar('Piña Colada',40)">Adicionar</button></div>
+<div class="card"><span>Capilua Lua Cheia</span><button onclick="adicionar('Capilua Lua Cheia',35)">Adicionar</button></div>
+<div class="card"><span>Drink de Melancia</span><button onclick="adicionar('Drink de Melancia',35)">Adicionar</button></div>
+<div class="card"><span>Gin Tônica</span><button onclick="adicionar('Gin Tônica',35)">Adicionar</button></div>
+<div class="card"><span>Aperol Spritz</span><button onclick="adicionar('Aperol Spritz',35)">Adicionar</button></div>
+</div>
+</div>
+
+<!-- DESTILADOS -->
+<div class="section">
+<h2>🥃 Destilados</h2>
+<div class="grid">
+<div class="card"><span>Whisky</span><button onclick="adicionar('Whisky',15)">Adicionar</button></div>
+<div class="card"><span>Cachaça</span><button onclick="adicionar('Cachaça',8)">Adicionar</button></div>
+<div class="card"><span>Conhaque</span><button onclick="adicionar('Conhaque',12)">Adicionar</button></div>
+<div class="card"><span>Vodka</span><button onclick="adicionar('Vodka',12)">Adicionar</button></div>
+<div class="card"><span>PTU</span><button onclick="adicionar('PTU',5)">Adicionar</button></div>
+<div class="card"><span>Gin</span><button onclick="adicionar('Gin',15)">Adicionar</button></div>
+<div class="card"><span>Campari</span><button onclick="adicionar('Campari',12)">Adicionar</button></div>
+<div class="card"><span>Aperol</span><button onclick="adicionar('Aperol',15)">Adicionar</button></div>
+</div>
+</div>
+
+</main>
+
+<script>
+function adicionar(nome, preco){
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+  const item = carrinho.find(i => i.nome === nome);
+
+  if(item){
+    item.qtd += 1;
+  } else {
+    carrinho.push({ nome, preco, qtd:1 });
+  }
+
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  alert("Item adicionado ao carrinho");
+}
+
+function toggleMenu(){
+  const menu = document.getElementById("menu");
+  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+}
+</script>
+
+</body>
+</html>

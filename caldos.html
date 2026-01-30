@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caldos | Lua Cheia</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0f172a;
+  --card:#020617;
+  --border:#1e293b;
+  --gold:#facc15;
+  --blue:#38bdf8;
+  --green:#22c55e;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:#fff;
+  padding-top:90px;
+}
+
+/* HEADER FIXO */
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  background:rgba(2,6,23,.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+
+.topo{
+  max-width:1100px;
+  margin:auto;
+  padding:18px 20px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.topo h1{
+  color:var(--gold);
+  font-size:20px;
+  font-weight:700;
+}
+
+.menu-btn{
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* MENU */
+nav{
+  display:none;
+  flex-direction:column;
+  background:#020617;
+}
+
+nav a{
+  padding:14px 20px;
+  color:#fff;
+  text-decoration:none;
+  border-top:1px solid var(--border);
+}
+
+nav a:hover{
+  background:rgba(255,255,255,.05);
+}
+
+@media(min-width:768px){
+  .menu-btn{display:none}
+  nav{
+    display:flex!important;
+    flex-direction:row;
+    justify-content:center;
+    background:none;
+  }
+  nav a{border:none}
+}
+
+/* MAIN */
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+h2{
+  margin-bottom:25px;
+  font-size:22px;
+  color:var(--blue);
+  border-left:4px solid var(--blue);
+  padding-left:12px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:16px;
+}
+
+/* CARD */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:18px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+.card span{
+  font-weight:600;
+}
+
+.card small{
+  display:block;
+  margin-top:4px;
+  color:#94a3b8;
+}
+
+.card button{
+  background:linear-gradient(135deg,#22c55e,#16a34a);
+  border:none;
+  padding:8px 16px;
+  border-radius:22px;
+  cursor:pointer;
+  font-weight:700;
+  color:#022c22;
+}
+
+.card button:hover{
+  opacity:.9;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="topo">
+    <h1>🌙 Lua Cheia</h1>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+
+  <nav id="menu">
+    <a href="index.html">Início</a>
+    <a href="refeicoes.html">Refeições</a>
+    <a href="petiscos.html">Petiscos</a>
+    <a href="saladas.html">Saladas</a>
+    <a href="bebidas.html">Bebidas</a>
+    <a href="porcoes.html">Porções</a>
+    <a href="carrinho.html">🧾 Carrinho</a>
+  </nav>
+</header>
+
+<main>
+
+<h2>🍲 Caldos</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <span>Caldo de Sururu <small>R$ 30,00</small></span>
+    <button onclick="adicionar('Caldo de Sururu',30)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Caldo de Camarão <small>R$ 35,00</small></span>
+    <button onclick="adicionar('Caldo de Camarão',35)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Caldo de Ostras <small>R$ 35,00</small></span>
+    <button onclick="adicionar('Caldo de Ostras',35)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Caldo de Polvo <small>R$ 40,00</small></span>
+    <button onclick="adicionar('Caldo de Polvo',40)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Caldo Misto <small>R$ 50,00</small></span>
+    <button onclick="adicionar('Caldo Misto',50)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Caldo de Peixe <small>R$ 30,00</small></span>
+    <button onclick="adicionar('Caldo de Peixe',30)">Adicionar</button>
+  </div>
+
+</div>
+
+</main>
+
+<script>
+function toggleMenu(){
+  const m=document.getElementById("menu");
+  m.style.display=m.style.display==="flex"?"none":"flex";
+}
+
+function adicionar(nome,preco){
+  let carrinho=JSON.parse(localStorage.getItem("carrinho"))||[];
+  const item=carrinho.find(i=>i.nome===nome);
+
+  if(item){
+    item.qtd+=1;
+  }else{
+    carrinho.push({nome,preco,qtd:1});
+  }
+
+  localStorage.setItem("carrinho",JSON.stringify(carrinho));
+  alert("✅ Item adicionado ao carrinho");
+}
+</script>
+
+</body>
+</html>

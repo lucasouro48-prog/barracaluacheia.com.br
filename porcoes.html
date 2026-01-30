@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Porções Extras | Lua Cheia</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#020617;
+  --card:#020617;
+  --border:#1e293b;
+  --gold:#facc15;
+  --blue:#38bdf8;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter',sans-serif;
+}
+
+body{
+  background:#0f172a;
+  color:#fff;
+  padding-top:90px;
+}
+
+/* HEADER */
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  background:rgba(2,6,23,.9);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+}
+
+.topo{
+  max-width:1100px;
+  margin:auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:18px 20px;
+}
+
+.topo h1{
+  color:var(--gold);
+  font-size:20px;
+  font-weight:700;
+}
+
+.menu-btn{
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* MENU */
+nav{
+  display:none;
+  flex-direction:column;
+  background:#020617;
+}
+
+nav a{
+  padding:14px 20px;
+  color:#fff;
+  text-decoration:none;
+  border-top:1px solid var(--border);
+}
+
+nav a:hover{
+  background:rgba(255,255,255,.05);
+}
+
+@media(min-width:768px){
+  .menu-btn{display:none}
+  nav{
+    display:flex!important;
+    flex-direction:row;
+    justify-content:center;
+    background:none;
+  }
+  nav a{border:none}
+}
+
+/* MAIN */
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+h2{
+  color:var(--blue);
+  margin-bottom:20px;
+  border-left:4px solid var(--blue);
+  padding-left:12px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  gap:15px;
+}
+
+/* CARD */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.card span{
+  font-weight:600;
+}
+
+.card small{
+  display:block;
+  color:#94a3b8;
+  margin-top:4px;
+}
+
+.card button{
+  background:linear-gradient(135deg,#facc15,#eab308);
+  border:none;
+  color:#020617;
+  padding:8px 14px;
+  border-radius:20px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.card button:hover{
+  opacity:.9;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+  <div class="topo">
+    <h1>🌙 Lua Cheia</h1>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+  <nav id="menu">
+    <a href="index.html">Início</a>
+    <a href="refeicoes.html">Refeições</a>
+    <a href="petiscos.html">Petiscos</a>
+    <a href="bebidas.html">Bebidas</a>
+    <a href="carrinho.html">🧾 Carrinho</a>
+  </nav>
+</header>
+
+<main>
+
+<h2>🍽️ Porções Extras</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <span>Macaxeira <small>R$ 23,00</small></span>
+    <button onclick="adicionar('Macaxeira',23)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Batata Frita <small>R$ 26,00</small></span>
+    <button onclick="adicionar('Batata Frita',26)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Pirão de Peixe <small>R$ 25,00</small></span>
+    <button onclick="adicionar('Pirão de Peixe',25)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Purê <small>R$ 20,00</small></span>
+    <button onclick="adicionar('Purê',20)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Arroz <small>R$ 15,00</small></span>
+    <button onclick="adicionar('Arroz',15)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Feijão <small>R$ 15,00</small></span>
+    <button onclick="adicionar('Feijão',15)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Farofa <small>R$ 10,00</small></span>
+    <button onclick="adicionar('Farofa',10)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Vinagrete <small>R$ 10,00</small></span>
+    <button onclick="adicionar('Vinagrete',10)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Salada Simples <small>R$ 18,00</small></span>
+    <button onclick="adicionar('Salada Simples',18)">Adicionar</button>
+  </div>
+
+</div>
+
+</main>
+
+<script>
+function toggleMenu(){
+  const m=document.getElementById("menu");
+  m.style.display=m.style.display==="flex"?"none":"flex";
+}
+
+function adicionar(nome,preco){
+  let carrinho=JSON.parse(localStorage.getItem("carrinho"))||[];
+  const item=carrinho.find(i=>i.nome===nome);
+
+  if(item){
+    item.qtd+=1;
+  }else{
+    carrinho.push({nome,preco,qtd:1});
+  }
+
+  localStorage.setItem("carrinho",JSON.stringify(carrinho));
+  alert("✅ Item adicionado ao carrinho");
+}
+</script>
+
+</body>
+</html>

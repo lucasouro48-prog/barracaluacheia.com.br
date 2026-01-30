@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Petiscos | Lua Cheia</title>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:#0f172a;
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  background:#020617;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:15px 20px;
+}
+
+.topo h1{
+  font-size:22px;
+  color:#facc15;
+}
+
+.menu-btn{
+  font-size:26px;
+  cursor:pointer;
+}
+
+/* MENU */
+nav{
+  display:none;
+  flex-direction:column;
+  background:#020617;
+}
+
+nav a{
+  padding:12px 20px;
+  color:#fff;
+  text-decoration:none;
+  border-top:1px solid #1e293b;
+}
+
+/* MAIN */
+main{
+  padding:20px;
+  max-width:1100px;
+  margin:auto;
+}
+
+h2{
+  margin:20px 0;
+  font-size:24px;
+  color:#38bdf8;
+  border-left:4px solid #38bdf8;
+  padding-left:10px;
+}
+
+/* GRID */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+  gap:15px;
+}
+
+/* CARD */
+.card{
+  background:#020617;
+  border:1px solid #1e293b;
+  border-radius:14px;
+  padding:15px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.card button{
+  background:#facc15;
+  color:#020617;
+  border:none;
+  padding:8px 14px;
+  border-radius:12px;
+  font-weight:bold;
+  cursor:pointer;
+}
+
+.card button:hover{
+  opacity:.9;
+}
+
+/* RESPONSIVO */
+@media(min-width:768px){
+  nav{
+    display:flex !important;
+    flex-direction:row;
+    justify-content:center;
+  }
+  .menu-btn{
+    display:none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="topo">
+    <h1>🌙 Lua Cheia</h1>
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
+  </div>
+
+  <nav id="menu">
+    <a href="index.html">Início</a>
+    <a href="refeicoes.html">Refeições</a>
+    <a href="petiscos.html">Petiscos</a>
+    <a href="bebidas.html">Bebidas</a>
+    <a href="carrinho.html">🧾 Carrinho</a>
+  </nav>
+</header>
+
+<main>
+
+<h2>🍢 Petiscos</h2>
+
+<div class="grid">
+
+  <div class="card">
+    <span>Camarão Alho e Óleo c/ Fritas</span>
+    <button onclick="addCarrinho('Camarão Alho e Óleo c/ Fritas',90)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Camarão com Casca</span>
+    <button onclick="addCarrinho('Camarão com Casca',80)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Camarão à Milanesa c/ Fritas</span>
+    <button onclick="addCarrinho('Camarão à Milanesa c/ Fritas',100)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Isca de Peixe c/ Fritas</span>
+    <button onclick="addCarrinho('Isca de Peixe c/ Fritas',154)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Carne de Sol c/ Macaxeira</span>
+    <button onclick="addCarrinho('Carne de Sol c/ Macaxeira',88)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Frango à Passarinho</span>
+    <button onclick="addCarrinho('Frango à Passarinho',75)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Calabresa Acebolada</span>
+    <button onclick="addCarrinho('Calabresa Acebolada',68)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Macaxeira Frita</span>
+    <button onclick="addCarrinho('Macaxeira Frita',23)">Adicionar</button>
+  </div>
+
+  <div class="card">
+    <span>Batata Frita</span>
+    <button onclick="addCarrinho('Batata Frita',26)">Adicionar</button>
+  </div>
+
+</div>
+
+</main>
+
+<script>
+function toggleMenu(){
+  const m = document.getElementById("menu");
+  m.style.display = m.style.display === "flex" ? "none" : "flex";
+}
+
+/* === CARRINHO UNIFICADO (MESMO DO carrinho.html) === */
+function addCarrinho(nome, preco){
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  const item = carrinho.find(i => i.nome === nome);
+
+  if(item){
+    item.qtd += 1;
+  }else{
+    carrinho.push({ nome, preco, qtd: 1 });
+  }
+
+  localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  alert("✅ Item adicionado ao carrinho");
+}
+</script>
+
+</body>
+</html>
