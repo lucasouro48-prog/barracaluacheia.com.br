@@ -14,105 +14,41 @@
   --gold:#facc15;
   --blue:#38bdf8;
 }
-
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
-
 body{
   background:radial-gradient(circle at top,#111827,#020617);
   color:#fff;
-  padding-top:120px; /* COMPENSA HEADER FIXO */
+  padding-top:90px;
 }
-
-/* ===== HEADER FIXO ===== */
 header{
-  position:fixed;
-  top:0;
-  left:0;
-  width:100%;
-  z-index:1000;
-  background:rgba(2,6,23,.9);
+  position:fixed;top:0;left:0;width:100%;z-index:1000;
   backdrop-filter:blur(14px);
+  background:rgba(2,6,23,.75);
   border-bottom:1px solid var(--border);
 }
-
 .topo{
-  max-width:1100px;
-  margin:auto;
-  padding:16px 20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+  max-width:1100px;margin:auto;padding:18px 20px;
+  display:flex;justify-content:space-between;align-items:center;
 }
-
-.topo h1{
-  color:var(--gold);
-  font-size:20px;
-}
-
-.menu-btn{
-  font-size:26px;
-  cursor:pointer;
-  display:block;
-}
-
-/* MENU MOBILE */
+.topo h1{color:var(--gold);font-size:20px}
+.menu-btn{font-size:26px;cursor:pointer}
 nav{
-  position:fixed;
-  top:70px;
-  left:0;
-  width:100%;
-  display:none;
-  flex-direction:column;
-  background:rgba(2,6,23,.97);
-  border-bottom:1px solid var(--border);
+  position:absolute;top:100%;left:0;width:100%;
+  display:none;flex-direction:column;
+  background:rgba(2,6,23,.95);
 }
-
 nav a{
-  padding:16px 20px;
-  color:#fff;
-  text-decoration:none;
+  padding:16px 20px;color:#fff;text-decoration:none;
   border-top:1px solid var(--border);
 }
-
-nav a.active{
-  color:var(--gold);
-  font-weight:600;
-}
-
-/* DESKTOP */
+nav a.active{color:var(--gold)}
 @media(min-width:768px){
   .menu-btn{display:none}
-
-  nav{
-    position:static;
-    display:flex!important;
-    flex-direction:row;
-    justify-content:center;
-    background:transparent;
-    border:none;
-  }
-
-  nav a{
-    border:none;
-    padding:20px;
-    opacity:.85;
-  }
-
-  nav a:hover{opacity:1}
+  nav{position:static;display:flex!important;flex-direction:row}
+  nav a{border:none;padding:20px}
 }
-
-/* ===== MAIN ===== */
-main{
-  max-width:900px;
-  margin:auto;
-  padding:30px 20px;
-}
-
-h2{
-  margin:30px 0 12px;
-  color:var(--blue);
-}
-
+main{max-width:900px;margin:auto;padding:30px 20px}
+h2{margin:30px 0 12px;color:var(--blue)}
 .card{
   background:var(--card);
   border:1px solid var(--border);
@@ -120,7 +56,6 @@ h2{
   padding:16px;
   margin-bottom:12px;
 }
-
 .total{
   margin-top:20px;
   border:1px solid var(--border);
@@ -128,7 +63,6 @@ h2{
   border-radius:20px;
   color:var(--gold);
 }
-
 input,select{
   width:100%;
   padding:14px;
@@ -138,27 +72,6 @@ input,select{
   background:rgba(255,255,255,.05);
   color:#fff;
 }
-
-#pix-box{
-  display:none;
-  margin-top:20px;
-  border:1px solid rgba(34,197,94,.4);
-  padding:20px;
-  border-radius:22px;
-  text-align:center;
-}
-
-.termos{
-  display:flex;
-  gap:10px;
-  margin-top:20px;
-  padding:15px;
-  border-radius:16px;
-  background:rgba(255,255,255,.04);
-  border:1px solid var(--border);
-  font-size:13px;
-}
-
 .btn-finalizar{
   margin-top:25px;
   background:linear-gradient(135deg,#22c55e,#16a34a);
@@ -181,7 +94,6 @@ input,select{
     <h1>🌙 Lua Cheia</h1>
     <div class="menu-btn" onclick="toggleMenu()">☰</div>
   </div>
-
   <nav id="menu">
     <a href="index.html">Início</a>
     <a href="refeicoes.html">Refeições</a>
@@ -196,128 +108,48 @@ input,select{
 <div id="lista"></div>
 <div id="total" class="total"></div>
 
-<h2>👤 Mesa</h2>
-<input id="mesa" placeholder="Ex: Mesa 3">
-
-<h2>⏰ Horário</h2>
-<select id="horario">
-  <option value="">Selecione</option>
-  <option>11:30</option><option>12:00</option>
-  <option>12:30</option><option>13:00</option>
-  <option>13:30</option><option>14:00</option>
-</select>
-
-<h2>💳 Pagamento</h2>
-<select id="pagamento" onchange="mostrarPix()">
-  <option value="">Selecione</option>
-  <option>Pix</option>
-  <option>Cartão</option>
-  <option>Dinheiro</option>
-</select>
-
-<div id="pix-box">
-  <p>Pagamento de 50% via Pix</p>
-  <img id="pix-qrcode" style="max-width:220px">
-  <p id="pix-copia"></p>
-</div>
-
-<label class="termos">
-  <input type="checkbox" id="termos">
-  Aceito os termos da reserva
-</label>
-
-<button class="btn-finalizar" onclick="finalizarPedido()">📲 Confirmar Reserva</button>
-
 </main>
 
-<!-- FIREBASE -->
-<script type="module" src="./js/firebase.js"></script>
-
-<script type="module">
-import { db } from "./js/firebase.js";
-import { collection, addDoc, query, where, getDocs, Timestamp }
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-/* MENU */
+<script>
 function toggleMenu(){
-  const menu = document.getElementById("menu");
-  menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+  const m=document.getElementById("menu");
+  m.style.display=m.style.display==="flex"?"none":"flex";
 }
-window.toggleMenu = toggleMenu;
 
-/* CARRINHO */
-let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+const CHAVE = "carrinho_luacheia";
+
+function getCarrinho(){
+  return JSON.parse(localStorage.getItem(CHAVE)) || [];
+}
 
 function carregarCarrinho(){
-  const l=document.getElementById("lista");
-  const t=document.getElementById("total");
-  l.innerHTML=""; let sub=0;
+  const lista=document.getElementById("lista");
+  const totalBox=document.getElementById("total");
 
-  if(!carrinho.length){
-    l.innerHTML="Carrinho vazio";
+  const carrinho=getCarrinho();
+  lista.innerHTML="";
+  let total=0;
+
+  if(carrinho.length===0){
+    lista.innerHTML="<p>Carrinho vazio</p>";
+    totalBox.innerHTML="";
     return;
   }
 
-  carrinho.forEach(i=>{
-    sub+=i.preco*i.qtd;
-    l.innerHTML+=`
+  carrinho.forEach(item=>{
+    const subtotal=item.preco*item.qtd;
+    total+=subtotal;
+
+    lista.innerHTML+=`
       <div class="card">
-        ${i.nome} — R$ ${i.preco} x ${i.qtd}
-      </div>`;
+        <strong>${item.nome}</strong><br>
+        R$ ${item.preco.toFixed(2)} × ${item.qtd}<br>
+        Subtotal: R$ ${subtotal.toFixed(2)}
+      </div>
+    `;
   });
 
-  const taxa=sub*0.1;
-  const total=sub+taxa;
-  const sinal=total*0.5;
-
-  t.innerHTML=`Total: R$ ${total.toFixed(2)}<br>Sinal: R$ ${sinal.toFixed(2)}`;
-  gerarPix(sinal);
-}
-
-function gerarPix(v){
-  const p=`PIX | Lua Cheia | R$ ${v.toFixed(2)}`;
-  document.getElementById("pix-qrcode").src=
-  `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(p)}`;
-  document.getElementById("pix-copia").innerText=p;
-}
-
-window.mostrarPix = function(){
-  document.getElementById("pix-box").style.display =
-  pagamento.value==="Pix"?"block":"none";
-}
-
-window.finalizarPedido = async function(){
-
-  if(!mesa.value || !horario.value || !pagamento.value)
-    return alert("Preencha todos os campos");
-
-  if(!termos.checked)
-    return alert("Aceite os termos");
-
-  const q = query(
-    collection(db,"reservas_almoco"),
-    where("mesa","==",mesa.value),
-    where("horario","==",horario.value)
-  );
-
-  const existe = await getDocs(q);
-  if(!existe.empty){
-    alert("❌ Essa mesa já está reservada nesse horário.");
-    return;
-  }
-
-  await addDoc(collection(db,"reservas_almoco"),{
-    mesa: mesa.value,
-    horario: horario.value,
-    pagamento: pagamento.value,
-    itens: carrinho,
-    status: "pendente",
-    criadoEm: Timestamp.now()
-  });
-
-  localStorage.removeItem("carrinho");
-  alert("✅ Reserva confirmada com sucesso!");
-  window.open("https://wa.me/5584999999999","_blank");
+  totalBox.innerHTML=`<strong>Total:</strong> R$ ${total.toFixed(2)}`;
 }
 
 document.addEventListener("DOMContentLoaded",carregarCarrinho);
