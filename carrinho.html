@@ -3,86 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Carrinho | Lua Cheia</title>
+<title>Comanda | Lua Cheia</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --card:rgba(255,255,255,.05);
-  --border:rgba(255,255,255,.08);
+  --bg:#0f172a;
+  --card:#020617;
+  --border:#1e293b;
   --gold:#facc15;
   --blue:#38bdf8;
+  --green:#22c55e;
+  --red:#ef4444;
 }
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
 body{
-  background:radial-gradient(circle at top,#111827,#020617);
+  background:var(--bg);
   color:#fff;
   padding-top:90px;
 }
 header{
   position:fixed;top:0;left:0;width:100%;z-index:1000;
-  backdrop-filter:blur(14px);
-  background:rgba(2,6,23,.75);
-  border-bottom:1px solid var(--border);
+  background:#020617;border-bottom:1px solid var(--border);
 }
 .topo{
-  max-width:1100px;margin:auto;padding:18px 20px;
   display:flex;justify-content:space-between;align-items:center;
+  padding:15px 20px;
 }
-.topo h1{color:var(--gold);font-size:20px}
+.topo h1{color:var(--gold);font-size:22px}
 .menu-btn{font-size:26px;cursor:pointer}
-nav{
-  position:absolute;top:100%;left:0;width:100%;
-  display:none;flex-direction:column;
-  background:rgba(2,6,23,.95);
-}
+nav{display:none;flex-direction:column;background:#020617}
 nav a{
-  padding:16px 20px;color:#fff;text-decoration:none;
+  padding:12px 20px;color:#fff;text-decoration:none;
   border-top:1px solid var(--border);
 }
 nav a.active{color:var(--gold)}
 @media(min-width:768px){
+  nav{display:flex!important;flex-direction:row;justify-content:center}
+  nav a{border:none}
   .menu-btn{display:none}
-  nav{position:static;display:flex!important;flex-direction:row}
-  nav a{border:none;padding:20px}
 }
 main{max-width:900px;margin:auto;padding:30px 20px}
-h2{margin:30px 0 12px;color:var(--blue)}
-.card{
+h2{margin:25px 0 10px;color:var(--blue)}
+
+.item{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:18px;
-  padding:16px;
-  margin-bottom:12px;
+  border-radius:14px;
+  padding:14px;
+  margin-bottom:10px;
 }
+.item-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.qtd{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+.qtd button{
+  width:32px;height:32px;
+  border-radius:50%;
+  border:none;
+  background:#1e293b;
+  color:#fff;
+  cursor:pointer;
+}
+.qtd span{min-width:20px;text-align:center}
+
+.remove{
+  background:none;border:none;
+  color:var(--red);
+  cursor:pointer;
+}
+
 .total{
   margin-top:20px;
-  border:1px solid var(--border);
   padding:20px;
-  border-radius:20px;
+  border:1px solid var(--border);
+  border-radius:16px;
   color:var(--gold);
 }
-input,select{
+
+input,select,textarea{
   width:100%;
   padding:14px;
-  margin-bottom:15px;
-  border-radius:14px;
+  margin-bottom:12px;
+  border-radius:12px;
   border:1px solid var(--border);
-  background:rgba(255,255,255,.05);
+  background:#020617;
   color:#fff;
 }
-.btn-finalizar{
-  margin-top:25px;
-  background:linear-gradient(135deg,#22c55e,#16a34a);
-  color:#022c22;
-  padding:16px;
+textarea{resize:none;height:70px}
+
+#pix-box{
+  display:none;
+  margin-top:15px;
+  border:1px solid rgba(34,197,94,.5);
+  padding:20px;
+  border-radius:18px;
+  text-align:center;
+}
+
+.actions{
+  display:flex;
+  gap:10px;
+  margin-top:15px;
+}
+.actions button{
+  flex:1;
+  padding:14px;
   border:none;
-  border-radius:35px;
-  width:100%;
-  font-size:17px;
+  border-radius:30px;
   font-weight:700;
   cursor:pointer;
+}
+.btn-green{background:linear-gradient(135deg,#22c55e,#16a34a);color:#022c22}
+.btn-red{background:#7f1d1d;color:#fff}
+.btn-blue{background:#2563eb;color:#fff}
+
+.notice{
+  margin-top:15px;
+  font-size:13px;
+  opacity:.9;
 }
 </style>
 </head>
@@ -104,9 +150,51 @@ input,select{
 
 <main>
 
-<h2>🧾 Itens do Pedido</h2>
+<h2>🧾 Comanda</h2>
 <div id="lista"></div>
 <div id="total" class="total"></div>
+
+<h2>👤 Dados</h2>
+<input id="cliente" placeholder="Nome do cliente">
+<input id="guia" placeholder="Nome do guia">
+
+<select id="mesa"></select>
+
+<select id="horario">
+  <option value="">Horário</option>
+  <option>11:30</option><option>12:00</option>
+  <option>12:30</option><option>13:00</option>
+  <option>13:30</option><option>14:00</option>
+</select>
+
+<textarea id="obs" placeholder="Observações"></textarea>
+
+<h2>💳 Pagamento</h2>
+<select id="pagamento" onchange="mostrarPix()">
+  <option value="">Selecione</option>
+  <option>Pix</option>
+  <option>Crédito</option>
+  <option>Débito</option>
+  <option>Dinheiro</option>
+</select>
+
+<div id="pix-box">
+  <p><strong>Pagamento obrigatório de 50% via Pix</strong></p>
+  <img id="pix-qrcode" style="max-width:220px;margin:15px 0">
+  <p id="pix-copia"></p>
+</div>
+
+<div class="notice">
+⚠️ Reserva confirmada somente após pagamento de 50% via Pix.<br>
+❌ Cancelamento sem reembolso • 💰 Taxa de serviço 10%.
+</div>
+
+<div class="actions">
+  <button class="btn-blue" onclick="enviarWhats()">📲 Enviar Comanda</button>
+  <button class="btn-red" onclick="limpar()">🗑️ Limpar</button>
+</div>
+
+<button class="btn-green" style="margin-top:15px;width:100%" onclick="finalizar()">✅ Confirmar Reserva</button>
 
 </main>
 
@@ -116,43 +204,97 @@ function toggleMenu(){
   m.style.display=m.style.display==="flex"?"none":"flex";
 }
 
-const CHAVE = "carrinho_luacheia";
+let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+let totalFinal=0, sinal=0;
 
-function getCarrinho(){
-  return JSON.parse(localStorage.getItem(CHAVE)) || [];
+// Mesas 1 a 100
+const mesaSel=document.getElementById("mesa");
+mesaSel.innerHTML='<option value="">Mesa</option>';
+for(let i=1;i<=100;i++){
+  mesaSel.innerHTML+=`<option>Mesa ${i}</option>`;
 }
 
-function carregarCarrinho(){
-  const lista=document.getElementById("lista");
-  const totalBox=document.getElementById("total");
+function salvar(){localStorage.setItem("carrinho",JSON.stringify(carrinho));}
 
-  const carrinho=getCarrinho();
-  lista.innerHTML="";
-  let total=0;
+function carregar(){
+  const l=document.getElementById("lista");
+  const t=document.getElementById("total");
+  l.innerHTML="";
+  let subtotal=0;
 
-  if(carrinho.length===0){
-    lista.innerHTML="<p>Carrinho vazio</p>";
-    totalBox.innerHTML="";
+  if(!carrinho.length){
+    l.innerHTML="Carrinho vazio";
+    t.innerHTML="";
     return;
   }
 
-  carrinho.forEach(item=>{
-    const subtotal=item.preco*item.qtd;
-    total+=subtotal;
-
-    lista.innerHTML+=`
-      <div class="card">
-        <strong>${item.nome}</strong><br>
-        R$ ${item.preco.toFixed(2)} × ${item.qtd}<br>
-        Subtotal: R$ ${subtotal.toFixed(2)}
+  carrinho.forEach((i,idx)=>{
+    const sub=i.preco*i.qtd;
+    subtotal+=sub;
+    l.innerHTML+=`
+      <div class="item">
+        <div class="item-top">
+          <strong>${i.nome}</strong>
+          <button class="remove" onclick="remover(${idx})">✖</button>
+        </div>
+        <div class="qtd">
+          <button onclick="alterar(${idx},-1)">−</button>
+          <span>${i.qtd}</span>
+          <button onclick="alterar(${idx},1)">+</button>
+        </div>
+        <small>R$ ${sub.toFixed(2)}</small>
       </div>
     `;
   });
 
-  totalBox.innerHTML=`<strong>Total:</strong> R$ ${total.toFixed(2)}`;
+  const taxa=subtotal*0.10;
+  totalFinal=subtotal+taxa;
+  sinal=totalFinal*0.5;
+
+  t.innerHTML=`
+    Subtotal: R$ ${subtotal.toFixed(2)}<br>
+    Taxa 10%: R$ ${taxa.toFixed(2)}<br><br>
+    <strong>Total: R$ ${totalFinal.toFixed(2)}</strong><br>
+    <strong>Sinal (50%): R$ ${sinal.toFixed(2)}</strong>
+  `;
+  gerarPix();
 }
 
-document.addEventListener("DOMContentLoaded",carregarCarrinho);
+function alterar(i,v){
+  carrinho[i].qtd+=v;
+  if(carrinho[i].qtd<=0) carrinho.splice(i,1);
+  salvar();carregar();
+}
+function remover(i){carrinho.splice(i,1);salvar();carregar();}
+function limpar(){if(confirm("Limpar carrinho?")){carrinho=[];salvar();carregar();}}
+
+function gerarPix(){
+  const p=`PIX LUA CHEIA R$ ${sinal.toFixed(2)}`;
+  pix_qrcode.src=`https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(p)}`;
+  pix_copia.innerText=p;
+}
+function mostrarPix(){pix_box.style.display=pagamento.value==="Pix"?"block":"none";}
+
+function enviarWhats(){
+  let msg=`🧾 *COMANDA LUA CHEIA*\n\n`;
+  carrinho.forEach(i=>{
+    msg+=`${i.qtd}x ${i.nome} - R$ ${(i.preco*i.qtd).toFixed(2)}\n`;
+  });
+  msg+=`\nTotal: R$ ${totalFinal.toFixed(2)}\nSinal: R$ ${sinal.toFixed(2)}`;
+  window.open(`https://wa.me/5584999999999?text=${encodeURIComponent(msg)}`,"_blank");
+}
+
+function finalizar(){
+  if(!cliente.value||!mesa.value||!horario.value||pagamento.value!=="Pix"){
+    alert("Preencha tudo e selecione Pix");
+    return;
+  }
+  alert("✅ Reserva enviada! Envie o comprovante.");
+  enviarWhats();
+  limpar();
+}
+
+document.addEventListener("DOMContentLoaded",carregar);
 </script>
 
 </body>
